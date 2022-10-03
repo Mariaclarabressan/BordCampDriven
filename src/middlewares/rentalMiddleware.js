@@ -13,7 +13,7 @@ export async function rentalMiddleware(req,res,next){
     const {rows: customerFounded} = await connection.query('SELECT * FROM customers WHERE id = $1;', [customerId]);
     const {rows: gameFounded} = await connection.query('SELECT * FROM games WHERE id = $1;', [gameId]);
    
-    const {rows: rentals} = await connection.query('SELECT * FROM rentals WHERE "delayFee" = null AND "returnDate" = null;');
+    const {rows: rentals} = await connection.query('SELECT * FROM rentals WHERE "gameId" = $1 AND "returnDate" IS NULL ;' , [gameId]);
    
 
     if(customerFounded.length === 0 || gameFounded.length === 0 ){

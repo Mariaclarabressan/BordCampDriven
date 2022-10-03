@@ -61,17 +61,18 @@ export async function postRent(req, res) {
 
         const { rows: pricePerDay } = await connection.query(
             `
-            SELECT games."pricePerDay" FROM games WHERE id = $1
+            SELECT games."pricePerDay" FROM games WHERE id = $1;
             `, [gameId]
         );
+        console.log('to aqui 1 ')
 
         const originalPrice = pricePerDay[0].pricePerDay * daysRented;
 
         await connection.query(`
-        INSERT INTO rentals ("customerId", "gameId", "rentDate", "daysRented", "returnDate", "originalPrice", "delayFee") VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO rentals ("customerId", "gameId", "rentDate", "daysRented", "returnDate", "originalPrice", "delayFee") VALUES ($1, $2, $3, $4, $5, $6, $7);
         ` [
             customerId, gameId, rentDate, daysRented, returnDate, originalPrice, delayFee
-        ]);
+        ]);        
 
         res.status(201).send('Aluguel cadastrado com sucesso')
 
